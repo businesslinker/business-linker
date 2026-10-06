@@ -1,0 +1,62 @@
+<svg width="600" height="140" viewBox="0 0 600 140" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <clipPath id="bl-bg-clip">
+      <rect x="0" y="0" width="600" height="140" rx="14" />
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#bl-bg-clip)">
+    <rect x="0" y="0" width="600" height="140" fill="#0B4074" />
+
+    <!-- Hexagon / network accent, right side -->
+    <g fill="none" stroke="#FFFFFF" stroke-opacity="0.55" stroke-width="1.6">
+      <polygon points="430.0,17.0 445.6,26.0 445.6,44.0 430.0,53.0 414.4,44.0 414.4,26.0" />
+      <polygon points="462.0,47.0 477.6,56.0 477.6,74.0 462.0,83.0 446.4,74.0 446.4,56.0" />
+      <polygon points="498.0,27.0 513.6,36.0 513.6,54.0 498.0,63.0 482.4,54.0 482.4,36.0" />
+      <polygon points="530.0,57.0 545.6,66.0 545.6,84.0 530.0,93.0 514.4,84.0 514.4,66.0" />
+      <polygon points="500.0,87.0 515.6,96.0 515.6,114.0 500.0,123.0 484.4,114.0 484.4,96.0" />
+      <polygon points="560.0,82.0 575.6,91.0 575.6,109.0 560.0,118.0 544.4,109.0 544.4,91.0" />
+      <polygon points="545.0,17.0 560.6,26.0 560.6,44.0 545.0,53.0 529.4,44.0 529.4,26.0" />
+    </g>
+    <g fill="#FFFFFF" fill-opacity="0.85">
+      <circle cx="430" cy="17" r="2.6" />
+      <circle cx="498" cy="27" r="2.6" />
+      <circle cx="545" cy="17" r="2.6" />
+      <circle cx="577" cy="91" r="2.6" />
+      <circle cx="500" cy="123" r="2.6" />
+      <circle cx="446" cy="74" r="2.2" />
+    </g>
+
+    <!-- B mark -->
+    <g>
+      <path
+        d="M40 22
+           h40
+           a20 20 0 0 1 20 20
+           v0
+           a16 16 0 0 1 -8 14
+           a18 18 0 0 1 10 16
+           v0
+           a20 20 0 0 1 -20 20
+           h-42
+           a10 10 0 0 1 -10 -10
+           v-50
+           a10 10 0 0 1 10 -10
+           z"
+        fill="#FFFFFF"
+      />
+      <path
+        d="M56 40 h20 a10 10 0 0 1 0 20 h-20 z"
+        fill="#0B4074"
+      />
+      <path
+        d="M56 62 h24 a11 11 0 0 1 0 22 h-24 z"
+        fill="#0B4074"
+      />
+    </g>
+
+    <!-- Wordmark -->
+    <text x="112" y="66" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="34" fill="#FFFFFF">Business</text>
+    <text x="112" y="98" font-family="Arial, Helvetica, sans-serif" font-weight="400" font-size="30" fill="#FFFFFF">Linker</text>
+  </g>
+</svg>
