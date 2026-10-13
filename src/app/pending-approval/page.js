@@ -20,14 +20,14 @@ export default async function PendingApprovalPage() {
         {profile?.status === 'rejected' ? (
           <>
             <h1 className="text-xl font-bold text-red-700 mb-2">Request Declined</h1>
-            <p className="text-sm text-gray-600">Your membership request Not approved. Ask or contact your chapter admin.</p>
+            <p className="text-sm text-gray-600">Your membership request wasn&apos;t approved. Please contact your chapter admin if you have questions.</p>
           </>
         ) : (
           <>
             <div className="w-14 h-14 rounded-full bg-blue-50 flex items-center justify-center mx-auto mb-4 text-2xl">⏳</div>
             <h1 className="text-xl font-bold text-blue-900 mb-2">Approval Pending</h1>
             <p className="text-sm text-gray-600">
-              Namaste {profile?.full_name}, Your Profile Has been Submitted.You can use App After your Profile Approved by admin.
+              Hi {profile?.full_name}, your profile has been submitted. As soon as your chapter admin or the Super Admin approves it, you&apos;ll have full access to the app.
             </p>
           </>
         )}

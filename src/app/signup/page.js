@@ -17,11 +17,11 @@ export default function SignupPage() {
     setError('')
 
     if (password.length < 6) {
-      setError('Password kam se kam 6 characters ka hona chahiye')
+      setError('Password must be at least 6 characters')
       return
     }
     if (password !== confirm) {
-      setError('Dono password match nahi kar rahe')
+      setError('Passwords do not match')
       return
     }
 
@@ -46,7 +46,7 @@ export default function SignupPage() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo-full.svg" alt="Business Linker" className="h-14 w-auto rounded-lg" />
         </div>
-        <p className="text-sm text-gray-500 mb-6 text-center">Step 1 of 2 — Apna account banayein</p>
+        <p className="text-sm text-gray-500 mb-6 text-center">Step 1 of 2 — Create your account</p>
 
         {error && <p className="text-red-500 mb-4 text-sm text-center">{error}</p>}
 
@@ -68,7 +68,7 @@ export default function SignupPage() {
         />
         <input
           type="password"
-          placeholder="Password Confirm Karein"
+          placeholder="Confirm Password"
           value={confirm}
           onChange={(e) => setConfirm(e.target.value)}
           className="w-full border p-2.5 rounded-lg mb-4"
@@ -83,9 +83,9 @@ export default function SignupPage() {
         </button>
 
         <p className="text-center text-sm text-gray-500 mt-5">
-          Already member hain?{' '}
+          Already a member?{' '}
           <Link href="/login" className="text-blue-700 font-medium hover:underline">
-            Login karein
+            Log in
           </Link>
         </p>
       </form>

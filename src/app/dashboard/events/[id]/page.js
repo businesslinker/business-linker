@@ -9,8 +9,8 @@ export default async function EventDetailPage({ params }) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const { data: event } = await supabase.from('events').select('*, chapters ( city_name )').eq('id', id).single()
-  if (!event) return <div className="p-8 text-center text-gray-400 text-sm">Event nahi mila.</div>
+  const { data: event } = await supabase.from('events').select('*, chapters!events_chapter_id_fkey ( city_name )').eq('id', id).single()
+  if (!event) return <div className="p-8 text-center text-gray-400 text-sm">Event not found.</div>
 
   const { data: me } = await supabase.from('profiles').select('role, chapter_id').eq('id', user.id).single()
   const canManage = me.role === 'super_admin' || (me.role === 'local_admin' && me.chapter_id === event.chapter_id)

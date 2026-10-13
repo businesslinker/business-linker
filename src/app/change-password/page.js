@@ -14,11 +14,11 @@ export default function ChangePasswordPage() {
     setError('')
 
     if (password.length < 6) {
-      setError('Password Must be 6 digit long')
+      setError('Password must be at least 6 characters')
       return
     }
     if (password !== confirm) {
-      setError('Password not Matching')
+      setError('Passwords do not match')
       return
     }
 
@@ -40,8 +40,8 @@ export default function ChangePasswordPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
       <form onSubmit={handleSubmit} className="bg-white p-6 sm:p-8 rounded-2xl shadow-md w-full max-w-sm">
-        <h1 className="text-xl font-bold mb-2 text-center text-blue-900">Set new password</h1>
-        <p className="text-sm text-gray-500 mb-6 text-center">This is your First Login.</p>
+        <h1 className="text-xl font-bold mb-2 text-center text-blue-900">Set a New Password</h1>
+        <p className="text-sm text-gray-500 mb-6 text-center">This is your first login — please choose a new password.</p>
 
         {error && <p className="text-red-500 mb-4 text-sm">{error}</p>}
 
@@ -55,7 +55,7 @@ export default function ChangePasswordPage() {
         />
         <input
           type="password"
-          placeholder="Please Confirm Password"
+          placeholder="Confirm Password"
           value={confirm}
           onChange={(e) => setConfirm(e.target.value)}
           className="w-full border p-2.5 rounded-lg mb-4"

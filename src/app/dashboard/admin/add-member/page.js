@@ -33,7 +33,7 @@ export default function AddMemberPage() {
 
       {result && (
         <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-4">
-          <p className="text-sm font-semibold text-green-800">Member add ho gaya! Login details unhe bhej dein:</p>
+          <p className="text-sm font-semibold text-green-800">Member added! Send them these login details:</p>
           <p className="text-sm mt-2 text-gray-700">Email: <b>{result.email}</b></p>
           <p className="text-sm text-gray-700">Temporary Password: <b>{result.tempPassword}</b></p>
         </div>
@@ -41,7 +41,7 @@ export default function AddMemberPage() {
       {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
 
       <form action={handleSubmit} className="bg-white border border-gray-200 rounded-xl p-4 space-y-3">
-               <input name="fullName" placeholder="Full Name" className="w-full border p-2.5 rounded-lg text-sm" required />
+        <input name="fullName" placeholder="Full Name" className="w-full border p-2.5 rounded-lg text-sm" required />
         <input name="email" type="email" placeholder="Email" className="w-full border p-2.5 rounded-lg text-sm" required />
         <div className="grid grid-cols-2 gap-3">
           <input name="age" type="number" min="18" max="100" placeholder="Age" className="w-full border p-2.5 rounded-lg text-sm" required />
@@ -59,7 +59,7 @@ export default function AddMemberPage() {
             type="tel"
             placeholder="Phone (10 digit)"
             pattern="(\+91[\-\s]?)?[6-9][0-9]{9}"
-            title="10 digit Indian mobile number daalein (jaise 9876543210 ya +91 9876543210)"
+            title="Enter a 10-digit Indian mobile number (e.g. 9876543210 or +91 9876543210)"
             className="w-full border p-2.5 rounded-lg text-sm"
             required
           />
@@ -68,7 +68,7 @@ export default function AddMemberPage() {
             type="tel"
             placeholder="WhatsApp Number"
             pattern="(\+91[\-\s]?)?[6-9][0-9]{9}"
-            title="10 digit Indian mobile number daalein (jaise 9876543210 ya +91 9876543210)"
+            title="Enter a 10-digit Indian mobile number (e.g. 9876543210 or +91 9876543210)"
             className="w-full border p-2.5 rounded-lg text-sm"
             required
           />

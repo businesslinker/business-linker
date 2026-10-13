@@ -19,7 +19,7 @@ export default function EventsPage() {
     const { data: me } = await supabase.from('profiles').select('role, chapter_id').eq('id', user.id).single()
     setRole(me.role)
 
-    let query = supabase.from('events').select('*, chapters ( city_name )').order('event_date', { ascending: true })
+    let query = supabase.from('events').select('*, chapters!events_chapter_id_fkey ( city_name )').order('event_date', { ascending: true })
     if (me.role !== 'super_admin') query = query.eq('chapter_id', me.chapter_id)
 
     const { data: eventsData } = await query
@@ -89,7 +89,7 @@ export default function EventsPage() {
             ) : null}
           </div>
         ))}
-        {upcoming.length === 0 && <p className="text-center text-gray-400 text-sm py-6">Koi upcoming event nahi hai.</p>}
+        {upcoming.length === 0 && <p className="text-center text-gray-400 text-sm py-6">No upcoming events.</p>}
       </div>
 
       {past.length > 0 && (

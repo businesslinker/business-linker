@@ -55,7 +55,7 @@ export default async function ChaptersPage() {
             </div>
           )
         })}
-        {(!chapters || chapters.length === 0) && <p className="text-center text-gray-400 text-sm py-8">Abhi koi chapter nahi hai.</p>}
+        {(!chapters || chapters.length === 0) && <p className="text-center text-gray-400 text-sm py-8">No chapters yet.</p>}
       </div>
     </div>
   )

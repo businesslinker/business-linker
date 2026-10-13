@@ -41,7 +41,7 @@ export default function DirectoryPage() {
   return (
     <div className="p-4">
       <h1 className="text-lg font-bold text-gray-900 mb-1">Member Directory</h1>
-      <p className="text-xs text-gray-400 mb-3">Kisi bhi chapter ke member ko search karein</p>
+      <p className="text-xs text-gray-400 mb-3">Search members across every chapter</p>
 
       <input
         type="text"
@@ -70,7 +70,7 @@ export default function DirectoryPage() {
           </div>
         ))}
         {!loading && filtered.length === 0 && (
-          <p className="text-center text-gray-400 text-sm py-8">Koi member nahi mila.</p>
+          <p className="text-center text-gray-400 text-sm py-8">No members found.</p>
         )}
       </div>
     </div>

@@ -16,7 +16,7 @@ export default function ProfilePage() {
   const [error, setError] = useState('')
   const [msg, setMsg] = useState('')
 
-   async function load() {
+  async function load() {
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
 
@@ -91,7 +91,7 @@ export default function ProfilePage() {
     setLoading(false)
     if (insertError) { setError(insertError.message); return }
     setEditingSensitive(false)
-    setMsg('Request bhej diya — Super Admin approve karenge, tab tak purani details hi sabko dikhengi.')
+    setMsg('Request submitted — the Super Admin will review it. Until then, your current details will still be shown to everyone.')
     load()
   }
 
@@ -119,7 +119,7 @@ export default function ProfilePage() {
       {pendingChange && (
         <div className="flex items-start gap-2 bg-amber-50 text-amber-800 text-xs rounded-lg p-3 mt-4">
           <Clock size={14} className="mt-0.5 shrink-0" />
-          Business Name / Profession / Category change request pending hai — Super Admin approve karne tak purani details hi sabko dikhengi.
+          Your Business Name / Profession / Category change request is pending — the current details will keep showing to everyone until the Super Admin approves it.
         </div>
       )}
 
@@ -134,7 +134,7 @@ export default function ProfilePage() {
           <p className="text-xs text-gray-500 mt-1">
             {membershipActive
               ? `Renews 1 January ${(profile.membership_paid_through_year || currentYear) + 1}`
-              : 'Renewal ke liye Super Admin se sampark karein.'}
+              : 'Please contact the Super Admin to renew.'}
           </p>
         </div>
       )}
@@ -156,7 +156,7 @@ export default function ProfilePage() {
               <label className="text-xs text-gray-500 mb-1 block">Photo</label>
               <input type="file" name="photo" accept="image/*" className="w-full text-sm border p-2 rounded-lg" />
             </div>
-                        <input name="age" type="number" min="18" max="100" defaultValue={profile.age || ''} placeholder="Age" className="w-full border p-2.5 rounded-lg text-sm" required />
+            <input name="age" type="number" min="18" max="100" defaultValue={profile.age || ''} placeholder="Age" className="w-full border p-2.5 rounded-lg text-sm" required />
             <input name="education" defaultValue={profile.education || ''} placeholder="Education" className="w-full border p-2.5 rounded-lg text-sm" required />
             <input name="experience" defaultValue={profile.experience || ''} placeholder="Experience" className="w-full border p-2.5 rounded-lg text-sm" required />
             <textarea name="bio" defaultValue={profile.bio || ''} placeholder="Bio" rows={3} className="w-full border p-2.5 rounded-lg text-sm" required />
@@ -166,7 +166,7 @@ export default function ProfilePage() {
               defaultValue={profile.phone || ''}
               placeholder="Phone (10 digit)"
               pattern="(\+91[\-\s]?)?[6-9][0-9]{9}"
-              title="10 digit Indian mobile number daalein (jaise 9876543210 ya +91 9876543210)"
+              title="Enter a 10-digit Indian mobile number (e.g. 9876543210 or +91 9876543210)"
               className="w-full border p-2.5 rounded-lg text-sm"
               required
             />
@@ -176,7 +176,7 @@ export default function ProfilePage() {
               defaultValue={profile.whatsapp || ''}
               placeholder="WhatsApp Number"
               pattern="(\+91[\-\s]?)?[6-9][0-9]{9}"
-              title="10 digit Indian mobile number daalein (jaise 9876543210 ya +91 9876543210)"
+              title="Enter a 10-digit Indian mobile number (e.g. 9876543210 or +91 9876543210)"
               className="w-full border p-2.5 rounded-lg text-sm"
               required
             />
@@ -186,7 +186,7 @@ export default function ProfilePage() {
           </form>
         ) : (
           <div className="bg-white border border-gray-200 rounded-xl p-4 space-y-1.5 text-sm text-gray-700">
-            {profile.age && <p>{profile.age} years</p>}
+            {profile.age && <p>{profile.age} years old</p>}
             {profile.education && <p>{profile.education}</p>}
             {profile.experience && <p>{profile.experience}</p>}
             {profile.bio && <p className="text-gray-500 mt-1">{profile.bio}</p>}
@@ -208,7 +208,7 @@ export default function ProfilePage() {
 
           {editingSensitive ? (
             <form onSubmit={handleSensitiveSubmit} className="bg-white border border-gray-200 rounded-xl p-4 space-y-3">
-              <p className="text-[11px] text-gray-400">Ye changes Super Admin approve karenge tabhi live honge (har chapter mein ek business category sirf ek member ki hoti hai).</p>
+              <p className="text-[11px] text-gray-400">These changes need Super Admin approval first (each chapter only allows one member per business category).</p>
               <input name="businessName" defaultValue={profile.business_name || ''} placeholder="Business Name" className="w-full border p-2.5 rounded-lg text-sm" required />
               <input name="profession" defaultValue={profile.profession || ''} placeholder="Profession" className="w-full border p-2.5 rounded-lg text-sm" required />
               <input name="businessCategory" defaultValue={profile.business_category || ''} placeholder="Business Category" className="w-full border p-2.5 rounded-lg text-sm" required />

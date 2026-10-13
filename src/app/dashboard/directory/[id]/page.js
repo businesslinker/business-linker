@@ -14,7 +14,7 @@ export default async function ProfileDetailPage({ params }) {
     .single()
 
   if (!m) {
-    return <div className="p-8 text-center text-gray-400 text-sm">Profile nahi mili.</div>
+    return <div className="p-8 text-center text-gray-400 text-sm">Profile not found.</div>
   }
 
   return (
@@ -42,7 +42,7 @@ export default async function ProfileDetailPage({ params }) {
         {m.bio && <p className="text-sm mt-4 leading-relaxed text-gray-700">{m.bio}</p>}
 
         <div className="mt-4 space-y-2.5 pb-6">
-          {m.age && <div className="flex items-center gap-2.5 text-sm text-gray-700"><Cake size={16} className="text-gray-400" /> {m.age} years</div>}
+          {m.age && <div className="flex items-center gap-2.5 text-sm text-gray-700"><Cake size={16} className="text-gray-400" /> {m.age} years old</div>}
           {m.education && <div className="flex items-center gap-2.5 text-sm text-gray-700"><GraduationCap size={16} className="text-gray-400" /> {m.education}</div>}
           {m.experience && <div className="flex items-center gap-2.5 text-sm text-gray-700"><Briefcase size={16} className="text-gray-400" /> {m.experience}</div>}
           {m.business_category && <div className="flex items-center gap-2.5 text-sm text-gray-700"><Building2 size={16} className="text-gray-400" /> {m.business_category}</div>}

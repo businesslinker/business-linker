@@ -38,7 +38,7 @@ export default function ProfileChangesPage() {
   return (
     <div className="p-4">
       <h1 className="text-lg font-bold text-gray-900 mb-1">Profile Change Requests</h1>
-      <p className="text-xs text-gray-400 mb-4">Business Name / Profession / Category edits — ek chapter mein ek category ka khayal rakhein.</p>
+      <p className="text-xs text-gray-400 mb-4">Business Name / Profession / Category edits — watch for duplicate categories within a chapter.</p>
 
       <div className="space-y-3">
         {changes.map((c) => (
@@ -73,7 +73,7 @@ export default function ProfileChangesPage() {
             </div>
           </div>
         ))}
-        {changes.length === 0 && <p className="text-center text-gray-400 text-sm py-8">Koi pending request nahi hai.</p>}
+        {changes.length === 0 && <p className="text-center text-gray-400 text-sm py-8">No pending requests.</p>}
       </div>
     </div>
   )

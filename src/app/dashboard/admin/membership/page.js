@@ -37,7 +37,7 @@ export default function MembershipPage() {
   return (
     <div className="p-4">
       <h1 className="text-lg font-bold text-gray-900 mb-1">Membership Renewals</h1>
-      <p className="text-xs text-gray-400 mb-4">Sab members 1 January ko renew hote hain. Cash offline liya jaata hai, yahan sirf status update karein.</p>
+      <p className="text-xs text-gray-400 mb-4">Everyone renews on 1 January. Payment is collected offline (cash) — this just updates their status here.</p>
 
       {expired.length > 0 && (
         <div className="mb-5">
@@ -74,7 +74,7 @@ export default function MembershipPage() {
               </button>
             </div>
           ))}
-          {active.length === 0 && <p className="p-3 text-xs text-gray-400">Koi active member nahi hai.</p>}
+          {active.length === 0 && <p className="p-3 text-xs text-gray-400">No active members.</p>}
         </div>
       </div>
     </div>

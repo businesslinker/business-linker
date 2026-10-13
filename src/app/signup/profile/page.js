@@ -27,7 +27,7 @@ export default function SignupProfilePage() {
     const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) {
-      setError('Session expire ho gayi, dobara signup karein')
+      setError('Your session has expired, please sign up again')
       setLoading(false)
       return
     }
@@ -84,8 +84,8 @@ export default function SignupProfilePage() {
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       <form onSubmit={handleSubmit} className="bg-white p-6 sm:p-8 rounded-2xl shadow-md w-full max-w-lg mx-auto">
-        <h1 className="text-2xl font-bold mb-1 text-center text-blue-900">Create Your Profile</h1>
-        <p className="text-sm text-gray-500 mb-6 text-center">Step 2 of 2 — Details for Better Business-Networking</p>
+        <h1 className="text-2xl font-bold mb-1 text-center text-blue-900">Build Your Profile</h1>
+        <p className="text-sm text-gray-500 mb-6 text-center">Step 2 of 2 — the more detail, the better the networking</p>
 
         {error && <p className="text-red-500 mb-4 text-sm text-center">{error}</p>}
 
@@ -97,43 +97,43 @@ export default function SignupProfilePage() {
 
           <input name="fullName" placeholder="Full Name" className="w-full border p-2.5 rounded-lg" required />
 
-<div className="grid grid-cols-2 gap-3">
-  <input name="age" type="number" min="18" max="100" placeholder="Age" className="w-full border p-2.5 rounded-lg" required />
-  <select name="chapterId" className="w-full border p-2.5 rounded-lg" required>
-    <option value="">-- Chapter/City --</option>
-    {chapters.map((c) => (
-      <option key={c.id} value={c.id}>{c.city_name}</option>
-    ))}
-  </select>
-</div>
+          <div className="grid grid-cols-2 gap-3">
+            <input name="age" type="number" min="18" max="100" placeholder="Age" className="w-full border p-2.5 rounded-lg" required />
+            <select name="chapterId" className="w-full border p-2.5 rounded-lg" required>
+              <option value="">-- Chapter/City --</option>
+              {chapters.map((c) => (
+                <option key={c.id} value={c.id}>{c.city_name}</option>
+              ))}
+            </select>
+          </div>
 
-<input name="businessName" placeholder="Business Name" className="w-full border p-2.5 rounded-lg" required />
-<input name="profession" placeholder="Profession (e.g. CA, Interior Contractor)" className="w-full border p-2.5 rounded-lg" required />
-<input name="businessCategory" placeholder="Business Category (e.g. Finance, Textiles)" className="w-full border p-2.5 rounded-lg" required />
-<input name="education" placeholder="Education" className="w-full border p-2.5 rounded-lg" required />
-<input name="experience" placeholder="Experience (e.g. 9 years in interiors)" className="w-full border p-2.5 rounded-lg" required />
-<textarea name="bio" placeholder="Short bio — tell the chapter about your business" rows={3} className="w-full border p-2.5 rounded-lg" required />
+          <input name="businessName" placeholder="Business Name" className="w-full border p-2.5 rounded-lg" required />
+          <input name="profession" placeholder="Profession (e.g. CA, Interior Contractor)" className="w-full border p-2.5 rounded-lg" required />
+          <input name="businessCategory" placeholder="Business Category (e.g. Finance, Textiles)" className="w-full border p-2.5 rounded-lg" required />
+          <input name="education" placeholder="Education" className="w-full border p-2.5 rounded-lg" required />
+          <input name="experience" placeholder="Experience (e.g. 9 years in interiors)" className="w-full border p-2.5 rounded-lg" required />
+          <textarea name="bio" placeholder="Short bio — tell the chapter about your business" rows={3} className="w-full border p-2.5 rounded-lg" required />
 
-<div className="grid grid-cols-2 gap-3">
-  <input
-    name="phone"
-    type="tel"
-    placeholder="Phone Number (10 digit)"
-    pattern="(\+91[\-\s]?)?[6-9][0-9]{9}"
-    title="10 digit Indian mobile number Only (Like 9876543210 or +91 9876543210)"
-    className="w-full border p-2.5 rounded-lg"
-    required
-  />
-  <input
-    name="whatsapp"
-    type="tel"
-    placeholder="WhatsApp Number"
-    pattern="(\+91[\-\s]?)?[6-9][0-9]{9}"
-    title="10 digit Indian mobile number only (Like 9876543210 or +91 9876543210)"
-    className="w-full border p-2.5 rounded-lg"
-    required
-  />
-</div>
+          <div className="grid grid-cols-2 gap-3">
+            <input
+              name="phone"
+              type="tel"
+              placeholder="Phone Number (10 digit)"
+              pattern="(\+91[\-\s]?)?[6-9][0-9]{9}"
+              title="Enter a 10-digit Indian mobile number (e.g. 9876543210 or +91 9876543210)"
+              className="w-full border p-2.5 rounded-lg"
+              required
+            />
+            <input
+              name="whatsapp"
+              type="tel"
+              placeholder="WhatsApp Number"
+              pattern="(\+91[\-\s]?)?[6-9][0-9]{9}"
+              title="Enter a 10-digit Indian mobile number (e.g. 9876543210 or +91 9876543210)"
+              className="w-full border p-2.5 rounded-lg"
+              required
+            />
+          </div>
         </div>
 
         <button

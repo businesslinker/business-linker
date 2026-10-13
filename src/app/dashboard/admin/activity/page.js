@@ -1,5 +1,4 @@
 import { createClient } from '@/lib/supabase-server'
-import Avatar from '../../Avatar'
 import { UserCheck, CalendarPlus } from 'lucide-react'
 
 export default async function ActivityPage() {
@@ -13,7 +12,7 @@ export default async function ActivityPage() {
   return (
     <div className="p-4">
       <h1 className="text-lg font-bold text-gray-900 mb-1">Activity Log</h1>
-      <p className="text-xs text-gray-400 mb-4">Local Admins ne kya-kya kiya — approvals aur events.</p>
+      <p className="text-xs text-gray-400 mb-4">What Local Admins have been doing — approvals and events.</p>
 
       <div className="bg-white border border-gray-200 rounded-xl divide-y divide-gray-100">
         {log?.map((item) => (
@@ -31,7 +30,7 @@ export default async function ActivityPage() {
             </div>
           </div>
         ))}
-        {(!log || log.length === 0) && <p className="p-4 text-center text-gray-400 text-sm">Abhi koi activity nahi hai.</p>}
+        {(!log || log.length === 0) && <p className="p-4 text-center text-gray-400 text-sm">No activity yet.</p>}
       </div>
     </div>
   )

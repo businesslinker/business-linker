@@ -36,7 +36,7 @@ export default function RequestsPage() {
     load()
   }
   async function handleReject(id) {
-    if (!confirm('Ye request reject kar dein?')) return
+    if (!confirm('Reject this request?')) return
     const res = await rejectMember(id)
     if (res.error) { alert(res.error); return }
     load()
@@ -77,7 +77,7 @@ export default function RequestsPage() {
             </div>
           </div>
         ))}
-        {requests.length === 0 && <p className="text-center text-gray-400 text-sm py-8">Koi pending request nahi hai.</p>}
+        {requests.length === 0 && <p className="text-center text-gray-400 text-sm py-8">No pending requests.</p>}
       </div>
     </div>
   )

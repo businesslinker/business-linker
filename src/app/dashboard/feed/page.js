@@ -106,7 +106,7 @@ export default function FeedPage() {
   function sharePost(p) {
     const author = p.profiles?.full_name || 'A member'
     const business = p.profiles?.business_name ? ` (${p.profiles.business_name})` : ''
-    const text = `${p.tag ? '🏷️ Offer from ' : 'From '}${author}${business} on Business Linker:\n\n${p.content}`
+    const text = `${p.tag ? 'Offer from ' : 'From '}${author}${business} on Business Linker:\n\n${p.content}`
     const url = `https://wa.me/?text=${encodeURIComponent(text)}`
     window.open(url, '_blank')
   }
@@ -241,7 +241,7 @@ export default function FeedPage() {
       })}
       {filteredPosts.length === 0 && (
         <p className="text-center text-gray-400 text-sm py-8">
-          {filter === 'offers' ? 'Abhi koi offer post nahi hai.' : 'Abhi koi post nahi hai.'}
+          {filter === 'offers' ? 'No offers posted yet.' : 'No posts yet.'}
         </p>
       )}
     </div>
