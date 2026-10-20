@@ -1,12 +1,17 @@
 'use client'
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { createClient } from '@/lib/supabase'
+import { prepareImage } from '@/lib/image'
 import Avatar from '../Avatar'
-import { Heart, MessageCircle, Image as ImageIcon, Share2, X } from 'lucide-react'
+import { Heart, MessageCircle, Image as ImageIcon, Share2, X, Trash2 } from 'lucide-react'
+
+const PAGE_SIZE = 15
 
 export default function FeedPage() {
   const [userId, setUserId] = useState(null)
+  const [role, setRole] = useState('member')
   const [posts, setPosts] = useState([])
+  const [limit, setLimit] = useState(PAGE_SIZE)
   const [loading, setLoading] = useState(true)
   const [composerOpen, setComposerOpen] = useState(false)
   const [draft, setDraft] = useState('')
@@ -24,22 +29,24 @@ export default function FeedPage() {
     const { data: { user } } = await supabase.auth.getUser()
     setUserId(user?.id)
 
-    const { data: myProfile } = await supabase.from('profiles').select('full_name, photo_url').eq('id', user.id).single()
+    const { data: myProfile } = await supabase.from('profiles').select('full_name, photo_url, role').eq('id', user.id).single()
     setMe(myProfile)
+    setRole(myProfile?.role || 'member')
 
     const { data } = await supabase
       .from('posts')
       .select(`
-        id, content, tag, photo_url, created_at,
+        id, content, tag, photo_url, created_at, author_id,
         profiles!posts_author_id_fkey ( full_name, photo_url, business_name ),
         post_likes ( member_id ),
-        post_comments ( id, content, created_at, profiles!post_comments_author_id_fkey ( full_name ) )
+        post_comments ( id, content, created_at, author_id, profiles!post_comments_author_id_fkey ( full_name ) )
       `)
       .order('created_at', { ascending: false })
+      .limit(limit)
 
     setPosts(data || [])
     setLoading(false)
-  }, [])
+  }, [limit])
 
   useEffect(() => { load() }, [load])
 
@@ -62,8 +69,16 @@ export default function FeedPage() {
 
     let photoUrl = null
     if (photoFile) {
-      const fileName = `${userId}-${Date.now()}.${photoFile.name.split('.').pop()}`
-      const { error: uploadError } = await supabase.storage.from('post-photos').upload(fileName, photoFile)
+      let prepared
+      try {
+        prepared = await prepareImage(photoFile)
+      } catch (err) {
+        alert(err.message)
+        setPosting(false)
+        return
+      }
+      const fileName = `${userId}-${Date.now()}.${prepared.name.split('.').pop()}`
+      const { error: uploadError } = await supabase.storage.from('post-photos').upload(fileName, prepared)
       if (uploadError) {
         alert('Photo upload failed: ' + uploadError.message)
         setPosting(false)
@@ -103,6 +118,22 @@ export default function FeedPage() {
     load()
   }
 
+  async function deletePost(postId) {
+    if (!confirm('Delete this post? Its likes and comments will be removed too.')) return
+    const supabase = createClient()
+    const { error } = await supabase.from('posts').delete().eq('id', postId)
+    if (error) { alert(error.message); return }
+    load()
+  }
+
+  async function deleteComment(commentId) {
+    if (!confirm('Delete this comment?')) return
+    const supabase = createClient()
+    const { error } = await supabase.from('post_comments').delete().eq('id', commentId)
+    if (error) { alert(error.message); return }
+    load()
+  }
+
   function sharePost(p) {
     const author = p.profiles?.full_name || 'A member'
     const business = p.profiles?.business_name ? ` (${p.profiles.business_name})` : ''
@@ -115,6 +146,9 @@ export default function FeedPage() {
     if (filter === 'offers') return posts.filter((p) => p.tag === 'Offer')
     return posts
   }, [posts, filter])
+
+  const isSuperAdmin = role === 'super_admin'
+  const hasMore = posts.length >= limit
 
   if (loading) return <div className="p-8 text-center text-gray-400 text-sm">Loading feed...</div>
 
@@ -183,6 +217,7 @@ export default function FeedPage() {
 
       {filteredPosts.map((p) => {
         const likedByMe = p.post_likes.some((l) => l.member_id === userId)
+        const canDeletePost = p.author_id === userId || isSuperAdmin
         return (
           <div key={p.id} className="rounded-xl overflow-hidden bg-white border border-gray-200">
             <div className="p-3.5">
@@ -195,6 +230,11 @@ export default function FeedPage() {
                   </div>
                   <p className="text-[11px] text-gray-400">{p.profiles?.business_name} · {new Date(p.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}</p>
                 </div>
+                {canDeletePost && (
+                  <button onClick={() => deletePost(p.id)} className="text-gray-300 hover:text-red-500 p-1" aria-label="Delete post">
+                    <Trash2 size={15} />
+                  </button>
+                )}
               </div>
               {p.content && <p className="text-sm mt-2.5 leading-relaxed text-gray-800">{p.content}</p>}
             </div>
@@ -219,9 +259,16 @@ export default function FeedPage() {
               {openComments[p.id] && (
                 <div className="mt-2.5 pt-2.5 border-t border-gray-100 space-y-2">
                   {p.post_comments.map((c) => (
-                    <div key={c.id} className="text-xs">
-                      <span className="font-semibold text-gray-800">{c.profiles?.full_name}: </span>
-                      <span className="text-gray-500">{c.content}</span>
+                    <div key={c.id} className="text-xs flex items-start gap-2">
+                      <p className="flex-1">
+                        <span className="font-semibold text-gray-800">{c.profiles?.full_name}: </span>
+                        <span className="text-gray-500">{c.content}</span>
+                      </p>
+                      {(c.author_id === userId || isSuperAdmin) && (
+                        <button onClick={() => deleteComment(c.id)} className="text-gray-300 hover:text-red-500 shrink-0" aria-label="Delete comment">
+                          <Trash2 size={12} />
+                        </button>
+                      )}
                     </div>
                   ))}
                   <div className="flex gap-2 pt-1">
@@ -239,10 +286,20 @@ export default function FeedPage() {
           </div>
         )
       })}
+
       {filteredPosts.length === 0 && (
         <p className="text-center text-gray-400 text-sm py-8">
           {filter === 'offers' ? 'No offers posted yet.' : 'No posts yet.'}
         </p>
+      )}
+
+      {hasMore && (
+        <button
+          onClick={() => setLimit((l) => l + PAGE_SIZE)}
+          className="w-full text-xs font-medium text-blue-700 bg-white border border-gray-200 rounded-xl py-2.5"
+        >
+          Load more
+        </button>
       )}
     </div>
   )

@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
+import { prepareImage } from '@/lib/image'
 
 export default function SignupProfilePage() {
   const [chapters, setChapters] = useState([])
@@ -34,9 +35,18 @@ export default function SignupProfilePage() {
 
     const form = e.target
     let photoUrl = null
-    const photoFile = form.photo.files[0]
+    const rawPhoto = form.photo.files[0]
 
-    if (photoFile) {
+    if (rawPhoto) {
+      let photoFile
+      try {
+        photoFile = await prepareImage(rawPhoto)
+      } catch (err) {
+        setError(err.message)
+        setLoading(false)
+        return
+      }
+
       const fileName = `${user.id}-${Date.now()}.${photoFile.name.split('.').pop()}`
       const { error: uploadError } = await supabase.storage
         .from('member-photos')
@@ -134,6 +144,11 @@ export default function SignupProfilePage() {
               required
             />
           </div>
+
+          <label className="flex items-start gap-2.5 text-xs text-gray-600 bg-gray-50 rounded-lg p-3 cursor-pointer">
+            <input type="checkbox" name="consent" className="mt-0.5 w-4 h-4 shrink-0" required />
+            <span>I understand that my profile, including my photo, phone number and WhatsApp number, will be visible to all Business Linker members.</span>
+          </label>
         </div>
 
         <button

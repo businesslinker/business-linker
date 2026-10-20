@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase'
+import { prepareImage } from '@/lib/image'
 import Avatar from '../Avatar'
 import ContactButtons from '../ContactButtons'
 import { ShieldCheck, AlertTriangle, Clock } from 'lucide-react'
@@ -48,8 +49,16 @@ export default function ProfilePage() {
     const { data: { user } } = await supabase.auth.getUser()
 
     let photoUrl = profile.photo_url
-    const photoFile = form.photo.files[0]
-    if (photoFile) {
+    const rawPhoto = form.photo.files[0]
+    if (rawPhoto) {
+      let photoFile
+      try {
+        photoFile = await prepareImage(rawPhoto)
+      } catch (err) {
+        setError(err.message)
+        setLoading(false)
+        return
+      }
       const fileName = `${user.id}-${Date.now()}.${photoFile.name.split('.').pop()}`
       const { error: uploadError } = await supabase.storage.from('member-photos').upload(fileName, photoFile, { upsert: true })
       if (uploadError) { setError(uploadError.message); setLoading(false); return }

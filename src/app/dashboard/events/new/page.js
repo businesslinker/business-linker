@@ -28,6 +28,9 @@ export default function NewEventPage() {
   async function handleSubmit(formData) {
     setLoading(true)
     setError('')
+    // The picker gives the time in the phone's own timezone. Convert it before sending,
+    // otherwise the server would treat it as UTC and the event would show the wrong time.
+    formData.set('eventDate', new Date(formData.get('eventDate')).toISOString())
     const res = await createEvent(formData)
     setLoading(false)
     if (res.error) { setError(res.error); return }

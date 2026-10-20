@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase-server'
-import { createChapter, assignLocalAdmin } from '../actions'
+import { createChapter, assignLocalAdmin, removeLocalAdmin } from '../actions'
 import Avatar from '../../Avatar'
 
 export default async function ChaptersPage() {
@@ -27,14 +27,27 @@ export default async function ChaptersPage() {
       <div className="space-y-3">
         {chapters?.map((ch) => {
           const chapterMembers = (members || []).filter((m) => m.chapter_id === ch.id && m.role === 'member')
+          const hasAdmin = !!ch.local_admin_id
           return (
             <div key={ch.id} className="bg-white border border-gray-200 rounded-xl p-3.5">
               <div className="flex items-center gap-2.5">
                 {ch.profiles?.full_name && <Avatar name={ch.profiles.full_name} photoUrl={ch.profiles.photo_url} size={32} />}
-                <div>
+                <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-gray-900">{ch.city_name}</p>
                   <p className="text-xs text-gray-400">Local Admin: {ch.profiles?.full_name || 'Not assigned'}</p>
                 </div>
+                {hasAdmin && (
+                  <form
+                    action={async () => {
+                      'use server'
+                      await removeLocalAdmin(ch.id)
+                    }}
+                  >
+                    <button className="text-[11px] font-medium text-red-600 bg-white border border-red-200 px-2.5 py-1.5 rounded-lg">
+                      Remove
+                    </button>
+                  </form>
+                )}
               </div>
 
               <form
@@ -45,13 +58,14 @@ export default async function ChaptersPage() {
                 className="flex gap-2 mt-3"
               >
                 <select name="memberId" className="flex-1 border border-gray-200 p-2 rounded-lg text-xs" required>
-                  <option value="">-- Assign Local Admin (from this chapter's members) --</option>
+                  <option value="">{hasAdmin ? '-- Replace Local Admin with... --' : '-- Assign Local Admin --'}</option>
                   {chapterMembers.map((m) => (
                     <option key={m.id} value={m.id}>{m.full_name}</option>
                   ))}
                 </select>
-                <button className="text-xs font-medium text-white bg-green-600 px-3 rounded-lg">Assign</button>
+                <button className="text-xs font-medium text-white bg-green-600 px-3 rounded-lg">{hasAdmin ? 'Replace' : 'Assign'}</button>
               </form>
+              {hasAdmin && <p className="text-[11px] text-gray-400 mt-1.5">The current Local Admin goes back to being a normal member.</p>}
             </div>
           )
         })}
